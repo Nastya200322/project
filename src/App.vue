@@ -2,21 +2,15 @@
   <div>
     <header class="site-header">{{ title }}</header>
     <hr />
-    <div class="word"><p >
-      <span style="margin-left:120px;" >Name</span>
-      <span style="margin-left:307px;">Email</span>
-      <span style="margin-left:350px;">Phone</span>
-      <span style="margin-left:400px;">Website</span>
-    </p></div>
-    <accordion-section v-for="(section, index) in sections" :key="index" :section="section" >
-      
-    </accordion-section>
+    <div class="word">
+        <span v-for="(field, index) in fields" :key="index"  class="field">{{ field }}</span>
+    </div>
+    <accordion-section v-for="(section, index) in sections" :key="index" :section="section" />
   </div>
 </template>
 
 <script>
 import AccordionSection from "./components/AccordionSection.vue";
-
 
 export default {
   components: {
@@ -26,38 +20,42 @@ export default {
     return {
       title: "USERS",
       sections: [],
+      fields: ["Name", "Email", "Phone", "Website"]
     };
   },
   mounted() {
-  fetch('https://jsonplaceholder.typicode.com/users')
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      this.sections = data;
-    });
-}
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.sections = data;
+        });
+    }
+  }
 }
 </script>
 
-<style>
+<style scoped>
   header{
-    color: var(--grey, #696969);
+    color:  #696969;
     font-size: 20px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     text-transform: uppercase;
-    margin-top:24px;
-    margin-left:51px;
+    margin: 24px 0 0 51px;
   }
 
   hr{
     width: 100%;
-    height: 0px;
     flex-shrink: 0;
     opacity: 0.3;
-    margin-top:30px;
+    margin-top: 30px;
   }
 
   .word {
@@ -68,10 +66,16 @@ export default {
     font-weight: 400;
     line-height: normal;
     display: flex;
-    width: 33.354px;
-    flex-direction: column;
-    flex-shrink: 0;
-    margin-bottom:10px;
+    justify-content: space-around;
     opacity: 0.5;
+  }
+
+  .field {
+    padding: 10px 0;
+    width: 280px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>

@@ -2,11 +2,11 @@
   <div>
     <button class="accordion" @click="toggleSection()">
       <div class="words">
-        <span style="margin-left:12px;"><img src="../assets/vector.svg" ></span>
-        <span style="margin-left:20px;">{{ name }}</span>
-        <span style="margin-left:238px;"> {{ email }}</span>
-        <span style="margin-left:274px;"> {{ phone }}</span>
-        <span style="margin-left:285px;"> {{ website }}</span></div>
+        <span><img src="../assets/vector.svg" ></span>
+        <span class="info">{{ name }}</span>
+        <span class="info"> {{ email }}</span>
+        <span class="info"> {{ phone }}</span>
+        <span class="info"> {{ website }}</span></div>
     </button>
     <div class="panel">
       <submit-section v-if="active" :section="section"/>
@@ -16,15 +16,10 @@
 
 <script>
 import SubmitSection from "@/components/SubmitSection.vue";
+
 export default {
   components: {
     SubmitSection
-  },
-  data(){
-    return{
-      active:false,
-      sections: [],
-    }
   },
   props: {
     section: {
@@ -34,6 +29,13 @@ export default {
       }
     },
   },
+  data(){
+    return{
+      active:false,
+      sections: [],
+    }
+  },
+  
   computed:{
     name(){
       return this.section?.name
@@ -56,24 +58,23 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .accordion {
   background-color: #fff;
-  border: 1px solid var(--yellow, #FFD200);
-  margin-bottom: 10px;
-  width: 1626px;
-  height: 40px;
+  border: 1px solid  #FFD200;
   border-radius: 4px;
-  margin-left:60px;
+  margin-bottom:10px;
+  width: 100%;
+  height: 40px;
 }
 
 .active, .accordion:hover {
   background-color: #ccc; 
 }
 
-.words{
+.words {
   display: flex;
-  flex-shrink: 0;
+  justify-content: space-between;
   color: #696969;
   font-size: 14px;
   font-family: Roboto;
@@ -82,8 +83,15 @@ export default {
   line-height: normal;
 }
 
+.info {
+  width: 400px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .panel {
-  padding: 0 18px;
   background-color: white;
   overflow: hidden;
 }
